@@ -1,8 +1,8 @@
-# lizard :lizard:
+# :lizard: lizard :lizard:
 
 Made by ArtiN4N
 
-lizard :lizard: is totally not snake, man.
+:lizard: lizard :lizard: is totally not snake, man.
 
 <br>
 
