@@ -146,7 +146,7 @@ void step_physics(Game* game, float dt) {
         update_lizard(&game->lizard);
     }
 
-    if (Vector2Equals(game->lizard.cellPosition, game->food.cellPosition)) {
+    if (Vector2Equals(game->lizard.nubs[0].cellPosition, game->food.cellPosition)) {
         game->lizard.score++;
         regenerate_food(&game->food, game->lizard);
     }

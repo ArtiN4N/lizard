@@ -3,6 +3,8 @@
 
 #include "raylib.h"
 
+#include "nub.h"
+
 //-- SCREEN DIMENSIONS --
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 800
@@ -17,8 +19,9 @@ typedef enum MoveDirection { START = 0, NORTH, EAST, SOUTH, WEST } MoveDirection
 // The lizard is a set of liard squares moving in any of the four cardinal directions
 // Lizards get longer whenever they eat food.
 // Lizards die when they hit a wall.
-typedef struct { 
-    Vector2 cellPosition;
+typedef struct {
+    Nub nubs[50];
+    //Vector2 cellPosition;
 
     int score;
 

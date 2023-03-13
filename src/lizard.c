@@ -11,7 +11,7 @@ Lizard create_lizard(Color color) {
 
     Lizard lizard;
 
-    lizard.cellPosition = Vector2Zero();
+    lizard.nubs[0] = create_nub(Vector2Zero());
 
     lizard.score = 0;
 
@@ -42,10 +42,10 @@ void move_lizard(Lizard* lizard, MoveDirection direction) {
 
 bool hit_wall(Lizard lizard) {
 
-    if (lizard.cellPosition.x < 0) return true;
-    if (lizard.cellPosition.y < 0) return true;
-    if (lizard.cellPosition.x > cells_x - 1) return true;
-    if (lizard.cellPosition.y > cells_y - 1) return true;
+    if (lizard.nubs[0].cellPosition.x < 0) return true;
+    if (lizard.nubs[0].cellPosition.y < 0) return true;
+    if (lizard.nubs[0].cellPosition.x > cells_x - 1) return true;
+    if (lizard.nubs[0].cellPosition.y > cells_y - 1) return true;
 
     return false;
 }
@@ -56,16 +56,16 @@ void update_lizard(Lizard* lizard) {
     switch(lizard->direction) {
 
     case NORTH:
-        lizard->cellPosition.y--;
+        lizard->nubs[0].cellPosition.y--;
         return;
     case SOUTH:
-        lizard->cellPosition.y++;
+        lizard->nubs[0].cellPosition.y++;
         return;
     case WEST:
-        lizard->cellPosition.x--;
+        lizard->nubs[0].cellPosition.x--;
         return;
     case EAST:
-        lizard->cellPosition.x++;
+        lizard->nubs[0].cellPosition.x++;
         return;
     default:
         return;
@@ -76,10 +76,10 @@ void update_lizard(Lizard* lizard) {
 
 void draw_lizard(Lizard lizard, Rectangle play_area) {
 
-    const float pos_x = play_area.x + lizard.cellPosition.x * cell_size;
-    const float pos_y = play_area.y + lizard.cellPosition.y * cell_size;
+    int num_nubs = lizard.score + 1;
 
-    DrawRectangle(pos_x, pos_y, cell_size, cell_size, lizard.color);
+    for (int i = 0; i < num_nubs; i++) draw_nub(lizard.nubs[i], lizard.color, play_area);
+
 }
 
 void draw_lizard_score(int score, Color score_color, Color start_color) {

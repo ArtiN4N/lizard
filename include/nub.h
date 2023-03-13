@@ -23,6 +23,6 @@ Nub create_nub(Vector2 cellPosition);
 
 void move_nub(Nub* nub, Vector2 cellPosition);
 
-void draw_nub(Nub nub, Rectangle play_area);
+void draw_nub(Nub nub, Color color, Rectangle play_area);
 
 #endif
