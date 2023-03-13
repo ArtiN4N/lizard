@@ -28,6 +28,9 @@ typedef struct {
     Color color;
 
     MoveDirection direction;
+    MoveDirection last_direction;
+    MoveDirection next_direction;
+
 } Lizard;
 
 
@@ -39,6 +42,8 @@ void move_lizard(Lizard* lizard, MoveDirection direction);
 bool hit_wall(Lizard lizard);
 
 void update_lizard(Lizard* lizard);
+
+void add_nub(Lizard* lizard);
 
 void draw_lizard(Lizard lizard, Rectangle play_area);
 
