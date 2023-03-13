@@ -11,13 +11,25 @@ Lizard create_lizard(Color color) {
 
     Lizard lizard;
 
-    lizard.nubs[0] = create_nub(Vector2Zero());
+    Vector2 start_nub = { cells_x / 2, cells_y / 2 };
+    Vector2 nub_2 = { start_nub.x + 1, start_nub.y };
+    Vector2 nub_3 = { start_nub.x + 2, start_nub.y };
+
+
+    //-------------------------------------------------
+
+
+    lizard.nubs[0] = create_nub(start_nub);
+    lizard.nubs[1] = create_nub(nub_2);
+    lizard.nubs[2] = create_nub(nub_3);
 
     lizard.score = 0;
 
     lizard.color = color;
 
     lizard.direction = START;
+    lizard.last_direction = START;
+    lizard.next_direction = START;
 
     return lizard;
 
@@ -35,7 +47,9 @@ void move_lizard(Lizard* lizard, MoveDirection direction) {
 
     }
 
-    lizard->direction = direction;
+    lizard->next_direction = direction;
+
+    if (lizard->direction != direction) lizard->last_direction = direction;
 
 }
 
@@ -52,6 +66,27 @@ bool hit_wall(Lizard lizard) {
 
 
 void update_lizard(Lizard* lizard) {
+
+
+    if (lizard->direction == NORTH && lizard->next_direction == SOUTH) lizard->direction = lizard->last_direction;
+    else if (lizard->direction == SOUTH && lizard->next_direction == NORTH) lizard->direction = lizard->last_direction;
+
+    else if (lizard->direction == EAST && lizard->next_direction == WEST) lizard->direction = lizard->last_direction;
+    else if (lizard->direction == WEST && lizard->next_direction == EAST) lizard->direction = lizard->last_direction;
+    else {
+        lizard->last_direction = lizard->direction;
+        lizard->direction = lizard->next_direction;
+    }
+
+    if (lizard->direction == START) return;
+
+    const int num_nubs = lizard->score + 3;
+
+    for (int i = num_nubs - 1; i > 0; i--) {
+        lizard->nubs[i].cellPosition.x = lizard->nubs[i - 1].cellPosition.x;
+        lizard->nubs[i].cellPosition.y = lizard->nubs[i - 1].cellPosition.y;
+    }
+    
 
     switch(lizard->direction) {
 
@@ -74,9 +109,21 @@ void update_lizard(Lizard* lizard) {
 
 }
 
+
+void add_nub(Lizard* lizard) {
+    const int num_nubs = lizard->score + 3;
+
+    Vector2 new_nub = { lizard->nubs[num_nubs - 1].cellPosition.x, lizard->nubs[num_nubs - 1].cellPosition.y };
+
+    lizard->nubs[num_nubs] = create_nub(new_nub);
+
+    lizard->score++;
+}
+
+
 void draw_lizard(Lizard lizard, Rectangle play_area) {
 
-    int num_nubs = lizard.score + 1;
+    const int num_nubs = lizard.score + 3;
 
     for (int i = 0; i < num_nubs; i++) draw_nub(lizard.nubs[i], lizard.color, play_area);
 
