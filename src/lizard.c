@@ -13,8 +13,6 @@ Lizard create_lizard(Color color) {
 
     lizard.cellPosition = Vector2Zero();
 
-    lizard.speed = 100.0f;
-
     lizard.score = 0;
 
     lizard.color = color;
@@ -56,6 +54,7 @@ bool hit_wall(Lizard lizard) {
 void update_lizard(Lizard* lizard) {
 
     switch(lizard->direction) {
+
     case NORTH:
         lizard->cellPosition.y--;
         return;
@@ -70,6 +69,7 @@ void update_lizard(Lizard* lizard) {
         return;
     default:
         return;
+
     }
 
 }

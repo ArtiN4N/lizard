@@ -98,7 +98,29 @@ void handle_input(Game* game, float dt) {
     //---------------------------------------------------------------------------------------------------------
 
 
-    // TODO: handle player movement
+    MoveDirection new_move = START;
+
+    switch(GetKeyPressed()) {
+
+    case KEY_W:
+        new_move = NORTH;
+        break;
+    case KEY_A:
+        new_move = WEST;
+        break;
+    case KEY_S:
+        new_move = SOUTH;
+        break;
+    case KEY_D:
+        new_move = EAST;
+        break;
+    default:
+        return;
+    
+    }
+
+    move_lizard(&game->lizard, new_move);
+
 
 }
 

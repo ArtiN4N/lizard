@@ -20,8 +20,6 @@ typedef enum MoveDirection { START = 0, NORTH, EAST, SOUTH, WEST } MoveDirection
 typedef struct { 
     Vector2 cellPosition;
 
-    float speed;
-
     int score;
 
     Color color;
