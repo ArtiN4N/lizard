@@ -4,6 +4,7 @@
 #include "../include/game.h"
 
 #include <stdbool.h>
+#include <stdio.h>
 
 
 Game initial_game_state() {
@@ -15,6 +16,9 @@ Game initial_game_state() {
 
     const float play_area_x = (SCREEN_WIDTH - play_area_width) / 2.0f;
     const float play_area_y = (SCREEN_HEIGHT - play_area_height) / 2.0f;
+
+    const float move_timer_length = 0.1f;
+    const bool move_loop = true;
 
 
     //--------------------------------------------------------------------------
@@ -41,6 +45,9 @@ Game initial_game_state() {
     game.time = 0.0f;
 
     game.close = false;
+
+    game.move_timer = create_timer(move_timer_length, move_loop);
+    pause_unpause_timer(&game.move_timer);
 
     game.screen_event = MENU;
 
@@ -119,6 +126,7 @@ void handle_input(Game* game, float dt) {
     
     }
 
+    game->move_timer.paused = false;
     move_lizard(&game->lizard, new_move);
 
 
@@ -129,9 +137,14 @@ void step_physics(Game* game, float dt) {
 
     if (game->screen_event != PLAY) return;
 
+    step_timer(&game->move_timer, dt);
+    printf("elapsed: %.2f finished: %d\n", game->move_timer.elapsed, game->move_timer.finished);
+
     game->time += dt;
 
-    update_lizard(&game->lizard);
+    if (game->move_timer.finished) {
+        update_lizard(&game->lizard);
+    }
 
     if (Vector2Equals(game->lizard.cellPosition, game->food.cellPosition)) {
         game->lizard.score++;

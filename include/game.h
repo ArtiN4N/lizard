@@ -29,6 +29,8 @@ typedef struct {
 
     float time;
 
+    Timer move_timer;
+
     bool close;
 
     ScreenEvent screen_event;
