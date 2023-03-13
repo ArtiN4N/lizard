@@ -4,7 +4,6 @@
 #include "../include/game.h"
 
 #include <stdbool.h>
-#include <stdio.h>
 
 
 Game initial_game_state() {
@@ -138,7 +137,6 @@ void step_physics(Game* game, float dt) {
     if (game->screen_event != PLAY) return;
 
     step_timer(&game->move_timer, dt);
-    printf("elapsed: %.2f finished: %d\n", game->move_timer.elapsed, game->move_timer.finished);
 
     game->time += dt;
 
@@ -147,7 +145,7 @@ void step_physics(Game* game, float dt) {
     }
 
     if (Vector2Equals(game->lizard.nubs[0].cellPosition, game->food.cellPosition)) {
-        game->lizard.score++;
+        add_nub(&game->lizard);
         regenerate_food(&game->food, game->lizard);
     }
 
