@@ -7,9 +7,9 @@
 //-- SCREEN DIMENSIONS --
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 800
-#define cells_x 20
-#define cells_y 20
-#define cell_size 25
+#define cells_x 15
+#define cells_y 15
+#define cell_size 40
 //-----------------------
 
 // Food is a single cell.
@@ -27,6 +27,6 @@ Food create_food(Color color);
 
 void regenerate_food(Food* food, Lizard lizard);
 
-void draw_food(Food food);
+void draw_food(Food food, Rectangle play_area);
 
 #endif

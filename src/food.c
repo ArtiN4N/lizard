@@ -41,6 +41,10 @@ void regenerate_food(Food* food, Lizard lizard) {
 }
 
 
-void draw_food(Food food) {
-    DrawRectangle(food.cellPosition.x * cell_size, food.cellPosition.y * cell_size, cell_size, cell_size, food.color);
+void draw_food(Food food, Rectangle play_area) {
+
+    const float pos_x = play_area.x + food.cellPosition.x * cell_size;
+    const float pos_y = play_area.y + food.cellPosition.y * cell_size;
+
+    DrawRectangle(pos_x, pos_y, cell_size, cell_size, food.color);
 }
