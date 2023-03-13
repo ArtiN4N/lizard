@@ -3,8 +3,13 @@
 
 #include "../include/game.h"
 
+#include <time.h>
+#include <stdlib.h>
+
 
 int main(void) {
+
+    srand(time(NULL)); // Sets random seed for food generation
 
     SetConfigFlags(FLAG_VSYNC_HINT); // Turns on v-sync
 
