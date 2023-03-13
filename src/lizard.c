@@ -74,8 +74,12 @@ void update_lizard(Lizard* lizard) {
 
 }
 
-void draw_lizard(Lizard lizard) {
-    DrawRectangle(lizard.cellPosition.x * cell_size, lizard.cellPosition.y * cell_size, cell_size, cell_size, lizard.color);
+void draw_lizard(Lizard lizard, Rectangle play_area) {
+
+    const float pos_x = play_area.x + lizard.cellPosition.x * cell_size;
+    const float pos_y = play_area.y + lizard.cellPosition.y * cell_size;
+
+    DrawRectangle(pos_x, pos_y, cell_size, cell_size, lizard.color);
 }
 
 void draw_lizard_score(int score, Color score_color, Color start_color) {

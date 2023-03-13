@@ -6,9 +6,9 @@
 //-- SCREEN DIMENSIONS --
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 800
-#define cells_x 20
-#define cells_y 20
-#define cell_size 25
+#define cells_x 15
+#define cells_y 15
+#define cell_size 40
 //-----------------------
 
 // Enum to designate menu, win, and play screens.
@@ -39,7 +39,7 @@ bool hit_wall(Lizard lizard);
 
 void update_lizard(Lizard* lizard);
 
-void draw_lizard(Lizard lizard);
+void draw_lizard(Lizard lizard, Rectangle play_area);
 
 void draw_lizard_score(int score, Color score_color, Color start_color);
 
