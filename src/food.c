@@ -3,13 +3,15 @@
 
 #include "../include/food.h"
 
+#include <stdlib.h>
+
 
 Food create_food(Color color) {
 
     Food food;
 
-    const float start_x = 5;
-    const float start_y = 5;
+    const int start_x = rand() % cells_x;
+    const int start_y = rand() % cells_y;
 
 
     //-------------------------------------------------
@@ -29,8 +31,8 @@ Food create_food(Color color) {
 
 void regenerate_food(Food* food, Lizard lizard) {
 
-    const float start_x = 5;
-    const float start_y = 5;
+    const int start_x = rand() % cells_x;
+    const int start_y = rand() % cells_y;
 
 
     //-------------------------------------------------
