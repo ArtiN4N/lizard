@@ -21,6 +21,6 @@ void reset_timer(Timer* timer);
 void pause_unpause_timer(Timer* timer);
 
 // Updates timer. Does nothing if timer is paused. Updates timer to reflect if it has completed, and loops if the timer is set to loop.
-void step_timer(Timer* timer, float time);
+void step_timer(Timer* timer, float dt);
 
 #endif

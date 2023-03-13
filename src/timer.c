@@ -1,6 +1,9 @@
 #include "../include/timer.h"
 
 
+#include <stdio.h>
+
+
 Timer create_timer(float length, bool loop) {
 
     const float elapsed = 0.0f;
@@ -35,7 +38,7 @@ void reset_timer(Timer* timer) {
 }
 
 
-void step_timer(Timer* timer, float time) {
+void step_timer(Timer* timer, float dt) {
 
     if (timer->paused) return;
 
@@ -43,7 +46,7 @@ void step_timer(Timer* timer, float time) {
     //-------------------------------------------
 
 
-    if (!timer->finished) timer->elapsed += time;
+    if (!timer->finished) timer->elapsed += dt;
     if (timer->elapsed < timer->length) return;
 
 
@@ -51,12 +54,13 @@ void step_timer(Timer* timer, float time) {
 
 
     if (timer->loop) {
-        if (!timer->finished) return; // Let timer be flagged as finished for one frame before looping
-        timer->elapsed = 0.0f;
+        if (timer->finished) {
+            reset_timer(timer); // Let timer be flagged as finished for one frame before looping
+            return;
+        }
         timer->finished = true;
     } else { // Update timer to be finished
         timer->elapsed = timer->length;
-    
         timer->finished = true;
     }
 }
