@@ -5,7 +5,7 @@
 
 #include "lizard.h"
 #include "food.h"
-//#include "timer.h"
+#include "timer.h"
 
 //-- SCREEN DIMENSIONS --
 #define SCREEN_WIDTH 1600
