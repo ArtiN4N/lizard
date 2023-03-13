@@ -10,9 +10,9 @@
 //-- SCREEN DIMENSIONS --
 #define SCREEN_WIDTH 1600
 #define SCREEN_HEIGHT 800
-#define cells_x 20
-#define cells_y 20
-#define cell_size 25
+#define cells_x 15
+#define cells_y 15
+#define cell_size 40
 //-----------------------
 
 // Enum to designate menu, win, and play screens.
@@ -51,6 +51,8 @@ void step_physics(Game* game, float dt);
 
 // Draws game clock
 void draw_time(float time, Color start_color, Color end_color);
+
+void draw_board(Rectangle play_area, Color* palette);
 
 void draw_play(Game game);
 

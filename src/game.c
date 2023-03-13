@@ -155,13 +155,46 @@ void draw_time(float time, Color time_color, Color start_color) {
 
 }
 
+void draw_board(Rectangle play_area, Color* palette) {
+
+    const int thick = 3;
+
+    const float cell_margin = thick / 2.0f;
+
+    for (int i = 0; i <= cells_x; i++) { // row seperators
+
+        const float cell_offset = i * cell_size;
+
+        const Vector2 startPos = { play_area.x - cell_margin, play_area.y + cell_offset};
+        const Vector2 endPos = { play_area.x + play_area.width + cell_margin, play_area.y + cell_offset};
+
+
+        DrawLineEx(startPos, endPos, thick, palette[FOREGROUND]);
+
+    }
+
+    for (int i = 0; i <= cells_y; i++) { // column seperators
+
+        const float cell_offset = i * cell_size;
+
+        const Vector2 startPos = { play_area.x + cell_offset, play_area.y - cell_margin };
+        const Vector2 endPos = { play_area.x + cell_offset, play_area.y + play_area.height + cell_margin };
+
+
+        DrawLineEx(startPos, endPos, thick, palette[FOREGROUND]);
+
+    }
+}
+
 
 void draw_play(Game game) {
 
-    draw_time(game.time, game.palette[PRIMARY], game.palette[SECONDARY]);
+    draw_lizard(game.lizard, game.play_area);
+    draw_food(game.food, game.play_area);
 
-    draw_lizard(game.lizard);
-    draw_food(game.food);
+    draw_board(game.play_area, game.palette);
+
+    draw_time(game.time, game.palette[PRIMARY], game.palette[SECONDARY]);
 
     draw_lizard_score(game.lizard.score, game.palette[PRIMARY], game.palette[SECONDARY]);
 
