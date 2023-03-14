@@ -12,8 +12,8 @@ Lizard create_lizard(Color color) {
     Lizard lizard;
 
     Vector2 start_nub = { cells_x / 2, cells_y / 2 };
-    Vector2 nub_2 = { start_nub.x + 1, start_nub.y };
-    Vector2 nub_3 = { start_nub.x + 2, start_nub.y };
+    Vector2 nub_2 = { start_nub.x, start_nub.y };
+    Vector2 nub_3 = { start_nub.x, start_nub.y };
 
 
     //-------------------------------------------------
