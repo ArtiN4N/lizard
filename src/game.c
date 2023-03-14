@@ -149,7 +149,7 @@ void step_physics(Game* game, float dt) {
         regenerate_food(&game->food, game->lizard);
     }
 
-    if (hit_wall(game->lizard)) {
+    if (hit_wall(game->lizard) || hit_self(game->lizard)) {
         game->screen_event = GAMEOVER;
     }
 

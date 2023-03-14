@@ -64,6 +64,16 @@ bool hit_wall(Lizard lizard) {
     return false;
 }
 
+bool hit_self(Lizard lizard) {
+    if (lizard.direction == START) return false;
+
+    const int num_nubs = lizard.score + 3;
+
+    for (int i = 1; i < num_nubs; i++) if (Vector2Equals(lizard.nubs[0].cellPosition, lizard.nubs[i].cellPosition)) return true;
+
+    return false;
+}
+
 
 void update_lizard(Lizard* lizard) {
 

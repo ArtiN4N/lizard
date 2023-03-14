@@ -20,7 +20,7 @@ typedef enum MoveDirection { START = 0, NORTH, EAST, SOUTH, WEST } MoveDirection
 // Lizards get longer whenever they eat food.
 // Lizards die when they hit a wall.
 typedef struct {
-    Nub nubs[50];
+    Nub nubs[256];
     //Vector2 cellPosition;
 
     int score;
@@ -40,6 +40,8 @@ Lizard create_lizard(Color color);
 void move_lizard(Lizard* lizard, MoveDirection direction);
 
 bool hit_wall(Lizard lizard);
+
+bool hit_self(Lizard lizard);
 
 void update_lizard(Lizard* lizard);
 
