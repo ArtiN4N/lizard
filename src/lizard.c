@@ -31,6 +31,26 @@ Lizard create_lizard(Color color) {
     lizard.last_direction = START;
     lizard.next_direction = START;
 
+
+    //-------------------------------------------------
+
+
+    lizard.death = LoadSound("resources/sfx/death.wav");
+
+    lizard.eat = LoadSound("resources/sfx/eat.wav");
+
+    lizard.moveup = LoadSound("resources/sfx/moveup.wav");
+    SetSoundVolume(lizard.moveup, 0.5f);
+    
+    lizard.moveright = LoadSound("resources/sfx/moveright.wav");
+    SetSoundVolume(lizard.moveright, 0.5f);
+
+    lizard.movedown = LoadSound("resources/sfx/movedown.wav");
+    SetSoundVolume(lizard.movedown, 0.5f);
+
+    lizard.moveleft = LoadSound("resources/sfx/moveleft.wav");
+    SetSoundVolume(lizard.moveleft, 0.5f);
+
     return lizard;
 
 }
@@ -39,12 +59,30 @@ Lizard create_lizard(Color color) {
 void move_lizard(Lizard* lizard, MoveDirection* move_buffer) {
 
     if (move_buffer[0] == START) return;
-    
+
     if (lizard->direction == NORTH && move_buffer[0] == SOUTH) return;
     if (lizard->direction == SOUTH && move_buffer[0] == NORTH) return;
 
     if (lizard->direction == EAST && move_buffer[0] == WEST) return;
     if (lizard->direction == WEST && move_buffer[0] == EAST) return;
+
+    switch(move_buffer[0]) {
+
+    case NORTH:
+        PlaySound(lizard->moveup); // move sfx        
+        break;
+    case SOUTH:
+        PlaySound(lizard->movedown); // move sfx        
+        break;
+    case WEST:
+        PlaySound(lizard->moveleft); // move sfx        
+        break;
+    case EAST:
+        PlaySound(lizard->moveright); // move sfx
+        break;
+    default:
+        break;
+    }
 
     lizard->direction = move_buffer[0];
     move_buffer[0] = move_buffer[1];
@@ -128,6 +166,13 @@ void draw_lizard(Lizard lizard, Rectangle play_area) {
 
 
 void lizard_unload_resources(Lizard* lizard) {
+
+    UnloadSound(lizard->death);
+    UnloadSound(lizard->eat);
+    UnloadSound(lizard->moveup);
+    UnloadSound(lizard->moveright);
+    UnloadSound(lizard->movedown);
+    UnloadSound(lizard->moveleft);
 
 }
 

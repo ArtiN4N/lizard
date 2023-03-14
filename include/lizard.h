@@ -31,6 +31,14 @@ typedef struct {
     MoveDirection last_direction;
     MoveDirection next_direction;
 
+    Sound death;
+    Sound eat;
+
+    Sound moveup;
+    Sound moveright;
+    Sound movedown;
+    Sound moveleft;
+
 } Lizard;
 
 

@@ -63,9 +63,6 @@ Game initial_game_state() {
 
     game.menuSelect = LoadSound("resources/sfx/menu.wav");
 
-    SetSoundVolume(game.menuSelect, 0.3f);
-
-
     //--------------------------------------------------------------------------
 
 
@@ -156,11 +153,13 @@ void step_physics(Game* game, float dt) {
     }
 
     if (Vector2Equals(game->lizard.nubs[0].cellPosition, game->food.cellPosition)) {
+        PlaySound(game->lizard.eat); // eat sfx
         add_nub(&game->lizard);
         regenerate_food(&game->food, game->lizard);
     }
 
     if (hit_wall(game->lizard) || hit_self(game->lizard)) {
+        PlaySound(game->lizard.death); // death sfx
         game->screen_event = GAMEOVER;
     }
 
