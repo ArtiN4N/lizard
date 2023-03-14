@@ -4,7 +4,7 @@
 #include "raylib.h"
 
 //-- SCREEN DIMENSIONS --
-#define SCREEN_WIDTH 1600
+#define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 800
 #define cells_x 15
 #define cells_y 15
