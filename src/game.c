@@ -173,74 +173,75 @@ Color get_gradient_in_time(Color start_color, Color end_color, float elapsed, fl
 }
 
 
+void draw_player_score(Color start_color, Color end_color, int score) {
+
+
+    const char* text = TextFormat("score = %d", score);
+
+    const int font_size = 40;
+
+    const float text_width = MeasureText(text, font_size);
+
+    const float text_x = (SCREEN_WIDTH + cell_size * cells_x) / 2.0f - text_width; 
+    const float text_y = (SCREEN_HEIGHT - cell_size * cells_y) / 4.0f - font_size / 2.0f;
+
+    const Color score_color = get_gradient_in_time(start_color, end_color, score, 64.0f);
+
+
+    //-----------------------------------------------------------------------
+
+
+    DrawText(text, text_x, text_y, font_size, score_color);
+
+}
+
+
 
 void draw_time(Color start_color, Color end_color, float time) {
 
 
-    const char* text = TextFormat("%.1f", time);
+    const char* text = TextFormat("time = %.1f", time);
     const int font_size = 40;
 
-    const float text_x = (SCREEN_WIDTH - MeasureText(text, font_size)) / 2.0f;
-    const float text_y = SCREEN_HEIGHT - 70.0f;
+    const float text_x = (SCREEN_WIDTH - cell_size * cells_x) / 2.0f;
+    const float text_y = (SCREEN_HEIGHT - cell_size * cells_y) / 4.0f - font_size / 2.0f;
+    // 
 
 
     //-----------------------------------------------------------------------------
 
 
-    Color time_color = get_gradient_in_time(start_color, end_color, time, 120.0f);
+    Color time_color = get_gradient_in_time(start_color, end_color, time, 90.0f);
 
     DrawText(text, text_x, text_y, font_size, time_color);
 
 }
 
-void draw_board(Rectangle play_area, Color color) {
+void draw_board(Color foreground, Color background, Rectangle play_area) {
+    for (int x = 0; x < cells_x; x++) {
+        for (int y = 0; y < cells_y; y++) {
 
-    const int thick = 3;
+            Color color = foreground;
 
-    const float cell_margin = thick / 2.0f;
+            if ((x + y) % 2 == 0) color = background;
+            else color.a *= 0.3f;
 
-    color.r -= 30;
-    color.g -= 30;
-    color.b -= 30;
-
-    for (int i = 0; i <= cells_x; i++) { // row seperators
-
-        const float cell_offset = i * cell_size;
-
-        const Vector2 startPos = { play_area.x - cell_margin, play_area.y + cell_offset};
-        const Vector2 endPos = { play_area.x + play_area.width + cell_margin, play_area.y + cell_offset};
-
-
-        
-
-        DrawLineEx(startPos, endPos, thick, color);
-
-    }
-
-    for (int i = 0; i <= cells_y; i++) { // column seperators
-
-        const float cell_offset = i * cell_size;
-
-        const Vector2 startPos = { play_area.x + cell_offset, play_area.y - cell_margin };
-        const Vector2 endPos = { play_area.x + cell_offset, play_area.y + play_area.height + cell_margin };
-
-
-        DrawLineEx(startPos, endPos, thick, color);
-
+            DrawRectangle(play_area.x + x * cell_size, play_area.y + y * cell_size, cell_size, cell_size, color);
+        }
     }
 }
 
 
 void draw_play(Game game) {
 
+    draw_board(game.palette[FOREGROUND], game.palette[BACKGROUND], game.play_area);
+
     draw_lizard(game.lizard, game.play_area);
     draw_food(game.food, game.play_area);
 
-    draw_board(game.play_area, game.palette[FOREGROUND]);
+    draw_time(game.palette[SECONDARY], game.palette[PRIMARY], game.time);
 
-    draw_time(game.palette[PRIMARY], game.palette[SECONDARY], game.time);
-
-    draw_lizard_score(game.lizard.score, game.palette[PRIMARY], game.palette[SECONDARY]);
+    draw_player_score(game.palette[SECONDARY], game.palette[PRIMARY], game.lizard.score);
 
 }
 
