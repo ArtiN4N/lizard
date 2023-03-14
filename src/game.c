@@ -19,6 +19,9 @@ Game initial_game_state() {
     const float move_timer_length = 0.1f;
     const bool move_loop = true;
 
+    const float death_timer_length = 2.0f;
+    const bool death_loop = false;
+
 
     //--------------------------------------------------------------------------
 
@@ -49,6 +52,10 @@ Game initial_game_state() {
     game.move_timer.elapsed = move_timer_length;
     game.move_timer.finished = true;
     pause_unpause_timer(&game.move_timer);
+
+    game.death_timer = create_timer(death_timer_length, death_loop);
+
+    game.death_flag = false;
 
     game.input_buffer[0] = START;
     game.input_buffer[1] = START;
@@ -93,8 +100,9 @@ void handle_input(Game* game, float dt) {
         return;
     }
 
-    if (game->screen_event == GAMEOVER && IsKeyDown(KEY_R)) { // R resets the game
+    if ((game->screen_event == GAMEOVER || game->screen_event == YOUWIN) && IsKeyDown(KEY_R)) { // R resets the game
         PlaySound(game->menuSelect); // menu sfx
+        reset_timer(&game->death_timer);
         reset_game(game);
         return;
     }
@@ -155,11 +163,26 @@ void handle_input(Game* game, float dt) {
 
 void step_physics(Game* game, float dt) {
 
-    if (game->screen_event != PLAY) return;
+    if (game->screen_event != PLAY) {
+        if (game->screen_event != MENU) {
+            kill_lizard(&game->lizard, dt);
+            
+            step_timer(&game->death_timer, dt);
+
+            if (game->death_timer.finished) {
+                game->death_flag = true;
+                
+            }
+        }
+
+        return;
+    }
+
+    game->death_flag = false;
 
     step_timer(&game->move_timer, dt);
 
-    game->time += dt;
+    if (game->lizard.direction != START) game->time += dt;
 
     if (game->move_timer.finished) {
         move_lizard(&game->lizard, game->input_buffer);
@@ -174,7 +197,13 @@ void step_physics(Game* game, float dt) {
 
     if (hit_wall(game->lizard) || hit_self(game->lizard)) {
         PlaySound(game->lizard.death); // death sfx
+        explode_lizard(&game->lizard, game->play_area); // explode animation
+
         game->screen_event = GAMEOVER;
+    }
+
+    if (game->lizard.score == cells_x * cells_y - 3) {
+        game->screen_event = YOUWIN;
     }
 
 }
@@ -337,7 +366,7 @@ void draw_gameover(Game game) {
     //--------------------------------------------------------------------------------------------------
 
 
-    int font_size = 100;
+    int font_size = 100;void draw_youwin(Game game);
     const char* title_text = "YOU DIED!";
     const float title_text_x = (SCREEN_WIDTH - MeasureText(title_text, font_size)) / 2.0f;
     const float title_text_y = (SCREEN_HEIGHT - font_size) / 2.0f - 10;
@@ -357,6 +386,53 @@ void draw_gameover(Game game) {
 
 }
 
+void draw_youwin(Game game) {
+
+    const float margin = (SCREEN_HEIGHT - cells_y * cell_size) / 2.0f;
+
+    const float background_height = cell_size * 5;
+
+    Rectangle background = { 0, margin + cell_size * 5, SCREEN_WIDTH, background_height };
+
+    DrawRectangleRec(background, game.palette[BACKGROUND]);
+
+    DrawRectangleLinesEx(background, 5, game.palette[FOREGROUND]);
+
+
+    //--------------------------------------------------------------------------------------------------
+
+
+    int font_size = 80;
+    const char* title_text = "YOU WIN!";
+    const float title_text_x = (SCREEN_WIDTH - MeasureText(title_text, font_size)) / 2.0f;
+    const float title_text_y = (SCREEN_HEIGHT - font_size) / 2.0f - 20;
+
+    DrawText(title_text, title_text_x, title_text_y, font_size, game.palette[PRIMARY]);
+
+
+    //--------------------------------------------------------------------------------------------------
+
+
+    const float flavor_text_y = title_text_y + font_size;
+    font_size = 20;
+    const char* flavor_text = "How?";
+    const float flavor_text_x = (SCREEN_WIDTH - MeasureText(flavor_text, font_size)) / 2.0f;
+    
+    DrawText(flavor_text, flavor_text_x, flavor_text_y, font_size, game.palette[FOREGROUND]);
+
+
+    //--------------------------------------------------------------------------------------------------
+
+
+    const float author_text_y = flavor_text_y + font_size + 15.0f;
+    font_size = 20;
+    const char* author_text = "Press R to restart";
+    const float author_text_x = (SCREEN_WIDTH - MeasureText(author_text, font_size)) / 2.0f;
+    
+    DrawText(author_text, author_text_x, author_text_y, font_size, game.palette[FOREGROUND]);
+
+}
+
 
 void draw_game(Game game) {
 
@@ -367,7 +443,8 @@ void draw_game(Game game) {
         if (game.screen_event == MENU) draw_menu(game);
         else draw_play(game);
 
-        if (game.screen_event == GAMEOVER) draw_gameover(game);
+        if (game.screen_event == GAMEOVER && game.death_flag == true) draw_gameover(game);
+        else if (game.screen_event == YOUWIN && game.death_flag == true) draw_youwin(game);
 
     EndDrawing();
 

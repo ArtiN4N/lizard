@@ -41,7 +41,7 @@ Lizard create_lizard(Color color) {
 
     lizard.moveup = LoadSound("resources/sfx/moveup.wav");
     SetSoundVolume(lizard.moveup, 0.5f);
-    
+
     lizard.moveright = LoadSound("resources/sfx/moveright.wav");
     SetSoundVolume(lizard.moveright, 0.5f);
 
@@ -53,6 +53,24 @@ Lizard create_lizard(Color color) {
 
     return lizard;
 
+}
+
+
+void explode_lizard(Lizard* lizard, Rectangle play_area) {
+    const int num_nubs = lizard->score + 3;
+
+    for (int i = 0; i < num_nubs; i++) {
+        explode_nub(&lizard->nubs[i], play_area);
+    }
+}
+
+
+void kill_lizard(Lizard* lizard, float dt) {
+    const int num_nubs = lizard->score + 3;
+
+    for (int i = 0; i < num_nubs; i++) {
+        kill_nub(&lizard->nubs[i], dt);
+    }
 }
 
 

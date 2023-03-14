@@ -16,7 +16,7 @@
 //-----------------------
 
 // Enum to designate menu, win, and play screens.
-typedef enum ScreenEvent { MENU = 0, PLAY, GAMEOVER } ScreenEvent;
+typedef enum ScreenEvent { MENU = 0, PLAY, GAMEOVER, YOUWIN } ScreenEvent;
 
 // Enum for color palette colors.
 typedef enum PaletteColors { BACKGROUND = 0, FOREGROUND, PRIMARY, SECONDARY, BASICBLACK, BASICWHITE } PaletteColors;
@@ -30,6 +30,10 @@ typedef struct {
     float time;
 
     Timer move_timer;
+
+    Timer death_timer;
+
+    bool death_flag;
 
     MoveDirection input_buffer[2];
 
@@ -61,6 +65,10 @@ void draw_player_score(Color start_color, Color end_color, int score);
 void draw_time(Color start_color, Color end_color, float time);
 
 void draw_board(Color foreground, Color background, Rectangle play_area);
+
+void draw_gameover(Game game);
+
+void draw_youwin(Game game);
 
 void draw_play(Game game);
 
