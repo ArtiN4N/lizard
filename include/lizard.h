@@ -37,7 +37,7 @@ typedef struct {
 // Creates a default lizard. Returns a lizard struct.
 Lizard create_lizard(Color color);
 
-void move_lizard(Lizard* lizard, MoveDirection direction);
+void move_lizard(Lizard* lizard, MoveDirection* move_buffer);
 
 bool hit_wall(Lizard lizard);
 

@@ -31,6 +31,8 @@ typedef struct {
 
     Timer move_timer;
 
+    MoveDirection input_buffer[2];
+
     bool close;
 
     ScreenEvent screen_event;

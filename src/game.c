@@ -46,7 +46,12 @@ Game initial_game_state() {
     game.close = false;
 
     game.move_timer = create_timer(move_timer_length, move_loop);
+    game.move_timer.elapsed = move_timer_length;
+    game.move_timer.finished = true;
     pause_unpause_timer(&game.move_timer);
+
+    game.input_buffer[0] = START;
+    game.input_buffer[1] = START;
 
     game.screen_event = MENU;
 
@@ -78,6 +83,9 @@ void reset_game(Game* game) {
 
     game->time = 0.0f;
 
+    game->input_buffer[0] = START;
+    game->input_buffer[1] = START;
+
 }
 
 
@@ -104,21 +112,24 @@ void handle_input(Game* game, float dt) {
     //---------------------------------------------------------------------------------------------------------
 
 
-    MoveDirection new_move = START;
+    int insert_index = 0;
+
+    if (game->input_buffer[0] != START) insert_index = 1;
+    if (game->input_buffer[1] != START) return;
 
     switch(GetKeyPressed()) {
 
     case KEY_W:
-        new_move = NORTH;
+        game->input_buffer[insert_index] = NORTH;
         break;
     case KEY_A:
-        new_move = WEST;
+        game->input_buffer[insert_index] = WEST;
         break;
     case KEY_S:
-        new_move = SOUTH;
+        game->input_buffer[insert_index] = SOUTH;
         break;
     case KEY_D:
-        new_move = EAST;
+        game->input_buffer[insert_index] = EAST;
         break;
     default:
         return;
@@ -126,8 +137,7 @@ void handle_input(Game* game, float dt) {
     }
 
     game->move_timer.paused = false;
-    move_lizard(&game->lizard, new_move);
-
+    //move_lizard(&game->lizard, game->input_buffer[1]);
 
 }
 
@@ -141,6 +151,7 @@ void step_physics(Game* game, float dt) {
     game->time += dt;
 
     if (game->move_timer.finished) {
+        move_lizard(&game->lizard, game->input_buffer);
         update_lizard(&game->lizard);
     }
 

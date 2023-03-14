@@ -36,21 +36,19 @@ Lizard create_lizard(Color color) {
 }
 
 
-void move_lizard(Lizard* lizard, MoveDirection direction) {
+void move_lizard(Lizard* lizard, MoveDirection* move_buffer) {
 
-    if (lizard->direction != START) {
-        if (lizard->direction == NORTH && direction == SOUTH) return;
-        if (lizard->direction == SOUTH && direction == NORTH) return;
+    if (move_buffer[0] == START) return;
+    
+    if (lizard->direction == NORTH && move_buffer[0] == SOUTH) return;
+    if (lizard->direction == SOUTH && move_buffer[0] == NORTH) return;
 
-        if (lizard->direction == EAST && direction == WEST) return;
-        if (lizard->direction == WEST && direction == EAST) return;
+    if (lizard->direction == EAST && move_buffer[0] == WEST) return;
+    if (lizard->direction == WEST && move_buffer[0] == EAST) return;
 
-    }
-
-    lizard->next_direction = direction;
-
-    if (lizard->direction != direction) lizard->last_direction = direction;
-
+    lizard->direction = move_buffer[0];
+    move_buffer[0] = move_buffer[1];
+    move_buffer[1] = START;
 }
 
 
@@ -76,17 +74,6 @@ bool hit_self(Lizard lizard) {
 
 
 void update_lizard(Lizard* lizard) {
-
-
-    if (lizard->direction == NORTH && lizard->next_direction == SOUTH) lizard->direction = lizard->last_direction;
-    else if (lizard->direction == SOUTH && lizard->next_direction == NORTH) lizard->direction = lizard->last_direction;
-
-    else if (lizard->direction == EAST && lizard->next_direction == WEST) lizard->direction = lizard->last_direction;
-    else if (lizard->direction == WEST && lizard->next_direction == EAST) lizard->direction = lizard->last_direction;
-    else {
-        lizard->last_direction = lizard->direction;
-        lizard->direction = lizard->next_direction;
-    }
 
     if (lizard->direction == START) return;
 
