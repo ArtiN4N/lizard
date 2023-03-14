@@ -53,10 +53,12 @@ void step_physics(Game* game, float dt);
 
 Color get_gradient_in_time(Color start_color, Color end_color, float elapsed, float length);
 
+void draw_player_score(Color start_color, Color end_color, int score);
+
 // Draws game clock
 void draw_time(Color start_color, Color end_color, float time);
 
-void draw_board(Rectangle play_area, Color color);
+void draw_board(Color foreground, Color background, Rectangle play_area);
 
 void draw_play(Game game);
 

@@ -49,8 +49,6 @@ void add_nub(Lizard* lizard);
 
 void draw_lizard(Lizard lizard, Rectangle play_area);
 
-void draw_lizard_score(int score, Color score_color, Color start_color);
-
 void lizard_unload_resources(Lizard* lizard);
 
 #endif
