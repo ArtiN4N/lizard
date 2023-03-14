@@ -307,6 +307,44 @@ void draw_menu(Game game) {
     
 }
 
+
+void draw_gameover(Game game) {
+
+    const float margin = (SCREEN_HEIGHT - cells_y * cell_size) / 2.0f;
+
+    const float background_height = cell_size * 5;
+
+    Rectangle background = { 0, margin + cell_size * 5, SCREEN_WIDTH, background_height };
+
+    DrawRectangleRec(background, game.palette[BACKGROUND]);
+
+    DrawRectangleLinesEx(background, 5, game.palette[FOREGROUND]);
+
+
+    //--------------------------------------------------------------------------------------------------
+
+
+    int font_size = 100;
+    const char* title_text = "YOU DIED!";
+    const float title_text_x = (SCREEN_WIDTH - MeasureText(title_text, font_size)) / 2.0f;
+    const float title_text_y = (SCREEN_HEIGHT - font_size) / 2.0f - 10;
+
+    DrawText(title_text, title_text_x, title_text_y, font_size, game.palette[SECONDARY]);
+
+
+    //--------------------------------------------------------------------------------------------------
+
+
+    const float author_text_y = title_text_y + font_size;
+    font_size = 20;
+    const char* author_text = "Press R to restart";
+    const float author_text_x = (SCREEN_WIDTH - MeasureText(author_text, font_size)) / 2.0f;
+    
+    DrawText(author_text, author_text_x, author_text_y, font_size, game.palette[FOREGROUND]);
+
+}
+
+
 void draw_game(Game game) {
 
     BeginDrawing();
@@ -315,6 +353,8 @@ void draw_game(Game game) {
 
         if (game.screen_event == MENU) draw_menu(game);
         else draw_play(game);
+
+        if (game.screen_event == GAMEOVER) draw_gameover(game);
 
     EndDrawing();
 
