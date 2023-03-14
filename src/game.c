@@ -194,9 +194,9 @@ void draw_board(Rectangle play_area, Color color) {
 
     const float cell_margin = thick / 2.0f;
 
-    color.r /= 2;
-    color.g /= 2;
-    color.b /= 2;
+    color.r -= 30;
+    color.g -= 30;
+    color.b -= 30;
 
     for (int i = 0; i <= cells_x; i++) { // row seperators
 
