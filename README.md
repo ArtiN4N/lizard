@@ -36,6 +36,8 @@ Double click `lizard/lizard.exe` to start the game.
 
 There's no official release for macOS systems. Look into [wine](https://www.winehq.org) to run the windows exe on macOS.
 
+<br>
+
 # Timeline
 
 **Started**   13/03/2023  
