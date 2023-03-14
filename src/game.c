@@ -108,11 +108,13 @@ void handle_input(Game* game, float dt) {
 
     //---------------------------------------------------------------------------------------------------------
 
+    if (game->input_buffer[1] != START) return;
+
+    game->move_timer.paused = false;
 
     int insert_index = 0;
 
     if (game->input_buffer[0] != START) insert_index = 1;
-    if (game->input_buffer[1] != START) return;
 
     switch(GetKeyPressed()) {
 
@@ -133,8 +135,20 @@ void handle_input(Game* game, float dt) {
     
     }
 
-    game->move_timer.paused = false;
-    //move_lizard(&game->lizard, game->input_buffer[1]);
+    bool opposite_input = (game->input_buffer[0] == NORTH && game->lizard.direction == SOUTH) || 
+        (game->input_buffer[0] == SOUTH && game->lizard.direction == NORTH) ||
+        (game->input_buffer[0] == EAST && game->lizard.direction == WEST) ||
+        (game->input_buffer[0] == WEST && game->lizard.direction == EAST);
+
+    while (opposite_input) {
+        game->input_buffer[0] = game->input_buffer[1];
+        game->input_buffer[1] = START;
+
+        opposite_input = (game->input_buffer[0] == NORTH && game->lizard.direction == SOUTH) || 
+        (game->input_buffer[0] == SOUTH && game->lizard.direction == NORTH) ||
+        (game->input_buffer[0] == EAST && game->lizard.direction == WEST) ||
+        (game->input_buffer[0] == WEST && game->lizard.direction == EAST);
+    }
 
 }
 
