@@ -203,6 +203,7 @@ void step_physics(Game* game, float dt) {
     }
 
     if (game->lizard.score == cells_x * cells_y - 3) {
+        PlaySound(game->lizard.eat); // repurpose eat sfx as win sfx (nobody will ever win)
         game->screen_event = YOUWIN;
     }
 
