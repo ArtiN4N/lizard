@@ -174,23 +174,7 @@ Color get_gradient_in_time(Color start_color, Color end_color, float elapsed, fl
 
 
 
-void draw_time(float time, Color time_color, Color start_color) {
-
-    float timer_factor = time / 60.0f;
-    if (timer_factor >= 1.0f) timer_factor = 1.0f;
-
-
-    //-----------------------------------------------------------------------------
-
-
-    const float r_offset = (255 - time_color.r) * timer_factor;
-    const float g_offset = (255 - time_color.g) * timer_factor;
-    const float b_offset = (255 - time_color.b) * timer_factor;
-    const float a_offset = (255 - time_color.a) * timer_factor;
-    time_color = (Color) { start_color.r - r_offset, start_color.g - g_offset, start_color.b - b_offset, start_color.a - a_offset };
-
-
-    //-----------------------------------------------------------------------------
+void draw_time(Color start_color, Color end_color, float time) {
 
 
     const char* text = TextFormat("%.1f", time);
@@ -199,8 +183,11 @@ void draw_time(float time, Color time_color, Color start_color) {
     const float text_x = (SCREEN_WIDTH - MeasureText(text, font_size)) / 2.0f;
     const float text_y = SCREEN_HEIGHT - 70.0f;
 
+
     //-----------------------------------------------------------------------------
 
+
+    Color time_color = get_gradient_in_time(start_color, end_color, time, 120.0f);
 
     DrawText(text, text_x, text_y, font_size, time_color);
 
@@ -251,7 +238,7 @@ void draw_play(Game game) {
 
     draw_board(game.play_area, game.palette[FOREGROUND]);
 
-    draw_time(game.time, game.palette[PRIMARY], game.palette[SECONDARY]);
+    draw_time(game.palette[PRIMARY], game.palette[SECONDARY], game.time);
 
     draw_lizard_score(game.lizard.score, game.palette[PRIMARY], game.palette[SECONDARY]);
 
