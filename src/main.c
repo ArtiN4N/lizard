@@ -13,7 +13,7 @@ int main(void) {
 
     SetConfigFlags(FLAG_VSYNC_HINT); // Turns on v-sync
 
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "classic_pong");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "lizard");
 
     SetExitKey(KEY_NULL); // Disables exiting with escape key
 
