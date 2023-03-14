@@ -54,7 +54,7 @@ void step_physics(Game* game, float dt);
 // Draws game clock
 void draw_time(float time, Color start_color, Color end_color);
 
-void draw_board(Rectangle play_area, Color* palette);
+void draw_board(Rectangle play_area, Color color);
 
 void draw_play(Game game);
 

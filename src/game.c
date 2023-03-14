@@ -188,11 +188,15 @@ void draw_time(float time, Color time_color, Color start_color) {
 
 }
 
-void draw_board(Rectangle play_area, Color* palette) {
+void draw_board(Rectangle play_area, Color color) {
 
     const int thick = 3;
 
     const float cell_margin = thick / 2.0f;
+
+    color.r /= 2;
+    color.g /= 2;
+    color.b /= 2;
 
     for (int i = 0; i <= cells_x; i++) { // row seperators
 
@@ -202,7 +206,9 @@ void draw_board(Rectangle play_area, Color* palette) {
         const Vector2 endPos = { play_area.x + play_area.width + cell_margin, play_area.y + cell_offset};
 
 
-        DrawLineEx(startPos, endPos, thick, palette[FOREGROUND]);
+        
+
+        DrawLineEx(startPos, endPos, thick, color);
 
     }
 
@@ -214,7 +220,7 @@ void draw_board(Rectangle play_area, Color* palette) {
         const Vector2 endPos = { play_area.x + cell_offset, play_area.y + play_area.height + cell_margin };
 
 
-        DrawLineEx(startPos, endPos, thick, palette[FOREGROUND]);
+        DrawLineEx(startPos, endPos, thick, color);
 
     }
 }
@@ -225,7 +231,7 @@ void draw_play(Game game) {
     draw_lizard(game.lizard, game.play_area);
     draw_food(game.food, game.play_area);
 
-    draw_board(game.play_area, game.palette);
+    draw_board(game.play_area, game.palette[FOREGROUND]);
 
     draw_time(game.time, game.palette[PRIMARY], game.palette[SECONDARY]);
 
