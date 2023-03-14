@@ -156,6 +156,24 @@ void step_physics(Game* game, float dt) {
 }
 
 
+Color get_gradient_in_time(Color start_color, Color end_color, float elapsed, float length) {
+
+    float completion_level = elapsed / length;
+
+    if (completion_level > 1.0f) completion_level = 1.0f;
+
+    Color ret = start_color;
+
+    ret.r = start_color.r * ( 1 - completion_level ) + end_color.r * completion_level;
+    ret.g = start_color.g * ( 1 - completion_level ) + end_color.g * completion_level;
+    ret.b = start_color.b * ( 1 - completion_level ) + end_color.b * completion_level;
+
+    return ret;
+
+}
+
+
+
 void draw_time(float time, Color time_color, Color start_color) {
 
     float timer_factor = time / 60.0f;
@@ -262,17 +280,17 @@ void draw_menu(Game game) {
 
     //--------------------------------------------------------------------------------------------------
 
-    font_size = 40;
+    font_size = 30;
     const char* play_text = "Press R to play";
     float play_text_x = (SCREEN_WIDTH - MeasureText(play_text, font_size)) / 2.0f;
-    float play_text_y = ((SCREEN_HEIGHT - font_size) / 2.0f) - 50.0f;
+    float play_text_y = ((SCREEN_HEIGHT - font_size) / 2.0f);
     DrawText(play_text, play_text_x, play_text_y, font_size, game.palette[PRIMARY]);
 
 
     //--------------------------------------------------------------------------------------------------
 
 
-    font_size = 30;
+    font_size = 20;
     const char* multi_paddle1_text = "Use W A S D to move";
     float multi_paddle1_text_x = ( SCREEN_WIDTH - MeasureText(multi_paddle1_text, font_size)) / 2.0f;
     float multi_paddle1_text_y = play_text_y + 50.0f;
@@ -282,10 +300,10 @@ void draw_menu(Game game) {
     //--------------------------------------------------------------------------------------------------
 
 
-    font_size = 40;
+    font_size = 30;
     const char* exit_text = "Press BACKSPACE to exit";
     float exit_text_x = (SCREEN_WIDTH - MeasureText(exit_text, font_size)) / 2.0f;
-    float exit_text_y = multi_paddle1_text_y + 200.0f;
+    float exit_text_y = multi_paddle1_text_y + 100.0f;
     DrawText(exit_text, exit_text_x, exit_text_y, font_size, game.palette[SECONDARY]);
     
 }
