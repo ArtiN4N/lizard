@@ -18,7 +18,7 @@ int main(void) {
     SetExitKey(KEY_NULL); // Disables exiting with escape key
 
     InitAudioDevice(); // Initialize audio device for sfx
-    SetMasterVolume(0.3f); // Set global volume for sfx
+    SetMasterVolume(0.5f); // Set global volume for sfx
 
     Game game = initial_game_state();
 
