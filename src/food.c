@@ -31,14 +31,28 @@ Food create_food(Color color) {
 
 void regenerate_food(Food* food, Lizard lizard) {
 
-    const int start_x = rand() % cells_x;
-    const int start_y = rand() % cells_y;
+
+    Vector2 start = food->cellPosition;
+
+    bool in_lizard = false;
+
+    const int num_nubs = lizard.score + 3;
+
+    do {
+        start.x = rand() % cells_x;
+        start.y = rand() % cells_y;
+
+        in_lizard = false;
+
+        for (int i = 0; i < num_nubs; i++) if (Vector2Equals(start, lizard.nubs[i].cellPosition)) in_lizard = true;
+    } while (in_lizard);
+    
 
 
     //-------------------------------------------------
     
 
-    food->cellPosition = (Vector2) { start_x, start_y };
+    food->cellPosition = start;
 
 }
 
