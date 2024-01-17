@@ -1,4 +1,4 @@
-# :lizard: lizard :lizard:
+# :lizard: [lizard](https://github.com/ArtiN4N/lizard) :lizard:
 
 Made by ArtiN4N
 
